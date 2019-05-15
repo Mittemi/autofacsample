@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Autofac;
+using AutofacSample.Bakery;
+using System;
 
 namespace AutofacSample
 {
@@ -6,7 +8,21 @@ namespace AutofacSample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ContainerBuilder cb = new ContainerBuilder();
+
+            cb.RegisterModule<BakeryModule>();
+
+            var container = cb.Build();
+
+            var store = container.Resolve<Store>();
+            store.Order();
+
+            Console.WriteLine("Press enter to move to the next store...");
+            Console.ReadLine();
+            Console.Clear();
+
+            var massStore = container.Resolve<MassStore>();
+            massStore.Order();
         }
     }
 }
